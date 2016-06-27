@@ -1,0 +1,41 @@
+{
+  "name": "thaismartins-angularjs",
+  "version": "1.0.0",
+  "description": "Website Thais Martins",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaismartinsprojects/site"
+  },
+  "keywords": [
+    "websites",
+    "web"
+  ],
+  "author": "Thais Martins <contato@thaismartins.co>",
+  "license": "ISC",
+  "homepage": "https://thaismartins.co",
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "coffee-script": "^1.10.0",
+    "cors": "^2.7.1",
+    "express": "~4.11.1",
+    "express-validator": "^2.20.8",
+    "fs": "0.0.2",
+    "jsonwebtoken": "^7.0.1",
+    "mongoose": "^4.5.1",
+    "morgan": "^1.7.0",
+    "multer": "^1.1.0",
+    "path": "^0.12.7",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "mockgoose": "^6.0.3",
+    "nodemon": "^1.9.2",
+    "should": "^9.0.2",
+    "supertest": "^1.2.0"
+  }
+}
