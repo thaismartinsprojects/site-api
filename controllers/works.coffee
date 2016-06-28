@@ -25,7 +25,7 @@ router.post '/', auth.isAuthenticated, upload.array('images'), (req, res) ->
   images = []
 
   if(req.files)
-    newPath = './public/images/works/' + work.path + '/'
+    newPath = './public/uploads/works/' + work.path + '/'
     fs.mkdirSync(newPath, '0766') unless fs.existsSync(newPath)
 
     req.files.forEach (file) ->
@@ -41,6 +41,34 @@ router.post '/', auth.isAuthenticated, upload.array('images'), (req, res) ->
   work.created = new Date();
 
   work.save (err) ->
+    return res.with(res.type.dbError, err) if err
+    res.with(res.type.createSuccess, work);
+
+module.exports = router
+
+# UPDATE EXISTENT WORK
+router.put '/:id', auth.isAuthenticated, upload.array('images'), (req, res) ->
+
+  work = new Work(req.body)
+  images = []
+
+  if(req.files)
+    newPath = './public/uploads/works/' + work.path + '/'
+    fs.mkdirSync(newPath, '0766') unless fs.existsSync(newPath)
+
+    req.files.forEach (file) ->
+      fs.rename file.path, newPath + file.filename, (err) ->
+        if !err
+          image =
+            'title': ''
+            'file': file.filename
+
+          images.push(image);
+
+  work.images = images;
+  work.created = new Date();
+
+  Work.findOneAndUpdate {_id: req.params.id}, work.toObjWithoutId(),  (err) ->
     return res.with(res.type.dbError, err) if err
     res.with(res.type.createSuccess, work);
 
