@@ -66,7 +66,6 @@ router.put '/:id', auth.isAuthenticated, upload.array('images'), (req, res) ->
           images.push(image);
 
   work.images = images;
-  work.created = new Date();
 
   Work.findOneAndUpdate {_id: req.params.id}, work.toObjWithoutId(),  (err) ->
     return res.with(res.type.dbError, err) if err
