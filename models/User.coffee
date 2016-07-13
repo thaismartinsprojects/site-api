@@ -4,18 +4,29 @@ jwt = require 'jsonwebtoken'
 bcrypt = require 'bcrypt'
 config = require '../config'
 salt = bcrypt.genSaltSync(10)
+Group = require './UserGroup'
 
 generatePassword = (password) ->
   bcrypt.hashSync(password, salt);
 
-UserSchema   = new Schema
+setGroup = (callback, obj) ->
+  Group.findOne {'type': 'administrador'}, (err, groupFound) ->
+    obj.group = groupFound._id
+    callback()
+
+UserSchema = new Schema
   name: type: String, required: true
   email: type: String, unique: true, required: true
   user: type: String, required: true
+  group: type: Schema.Types.ObjectId, ref: 'UserGroup', required: true
   token: String
   photo: String
   password: type: String, required: true, set: generatePassword
   created: type: Date, default: Date.now
+
+UserSchema.pre 'validate', (next) ->
+  if not this.group?
+    setGroup(next, this)
 
 UserSchema.methods.comparePassword = (password) ->
   return false unless this.password

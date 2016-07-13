@@ -1,5 +1,8 @@
 module.exports =
   createSlug: (str) ->
+
+    return '' if not str?
+
     str = str.replace(/^\s+|\s+$/g, '').toLowerCase()
 
     from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
