@@ -3,9 +3,11 @@
 express = require 'express'
 router = express.Router()
 
-router.use '/works', require './controllers/works'
 router.use '/accounts', require './controllers/accounts'
-router.use '/contact', require './controllers/contact'
+router.use '/works', require './controllers/works'
 router.use '/messages', require './controllers/messages'
+router.use '/skills/items', require './controllers/skills-items'
+router.use '/skills', require './controllers/skills'
+router.use '/contact', require './controllers/contact'
 
 module.exports = router

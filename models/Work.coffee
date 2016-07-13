@@ -7,7 +7,7 @@ generatePath = (name) ->
   name
 
 WorkSchema = new Schema
-  name: type: String, required: true, set: generatePath
+  title: type: String, required: true, set: generatePath
   shortdescription: type: String, required: true
   path: type: String, required: true
   description: type: String,  required: true
