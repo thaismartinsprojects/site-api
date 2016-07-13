@@ -1,6 +1,7 @@
 express = require 'express'
 router = express.Router()
 auth = require '../services/auth'
+files = require '../services/files'
 Work = require '../models/Work'
 fs = require 'fs'
 multer = require 'multer'
@@ -70,5 +71,12 @@ router.put '/:id', auth.isAuthenticated, upload.array('images'), (req, res) ->
   Work.findOneAndUpdate {_id: req.params.id}, work.toObjWithoutId(),  (err) ->
     return res.with(res.type.dbError, err) if err
     res.with(res.type.createSuccess, work)
+
+# DELETE WORK
+router.delete '/:id', auth.isAuthenticated, (req, res) ->
+  Item.findOneAndRemove {'_id': req.params.id}, (err, itemFound) ->
+    return res.with(res.type.dbError, err) if err
+    files.deletePathRecursive(itemFound.path)
+    res.with(res.type.deleteSuccess)
 
 module.exports = router
