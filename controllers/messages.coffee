@@ -31,4 +31,10 @@ router.get '/:id', auth.isAuthenticated, (req, res) ->
     return res.with(res.type.foundSuccess, messageFound)  if messageFound
     res.with(res.type.itemNotFound)
 
+# DELETE MESSAGE
+router.delete '/:id', auth.isAuthenticated, (req, res) ->
+  Message.findOneAndRemove {'_id': req.params.id}, (err) ->
+    return res.with(res.type.dbError, err) if err
+    res.with(res.type.deleteSuccess)
+
 module.exports = router
