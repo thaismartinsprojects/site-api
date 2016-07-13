@@ -76,7 +76,7 @@ router.put '/:id', auth.isAuthenticated, upload.array('images'), (req, res) ->
 router.delete '/:id', auth.isAuthenticated, (req, res) ->
   Item.findOneAndRemove {'_id': req.params.id}, (err, itemFound) ->
     return res.with(res.type.dbError, err) if err
-    files.deletePathRecursive(itemFound.path)
+    files.deletePathRecursive(itemFound.path) if itemFound.path
     res.with(res.type.deleteSuccess)
 
 module.exports = router
