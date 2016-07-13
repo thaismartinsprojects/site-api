@@ -1,5 +1,6 @@
 express = require 'express'
 router = express.Router()
+auth = require '../services/auth'
 Contact = require '../models/Contact'
 fs = require 'fs'
 nodemailer = require 'nodemailer'
