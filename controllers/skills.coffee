@@ -32,4 +32,10 @@ router.get '/:id', auth.isAuthenticated, (req, res) ->
     return res.with(res.type.foundSuccess, skillFound) if skillFound
     res.with(res.type.itemNotFound)
 
+# DELETE SKILL
+router.delete '/:id', auth.isAuthenticated, (req, res) ->
+  Skill.findOneAndRemove {'_id': req.params.id}, (err) ->
+    return res.with(res.type.dbError, err) if err
+    res.with(res.type.deleteSuccess)
+
 module.exports = router
