@@ -9,5 +9,6 @@ router.use '/messages', require './controllers/messages'
 router.use '/skills/items', require './controllers/skills-items'
 router.use '/skills', require './controllers/skills'
 router.use '/contact', require './controllers/contact'
+router.use '/info', require './controllers/info'
 
 module.exports = router

@@ -35,14 +35,14 @@ router.post '/', auth.isAuthenticated, upload.array('images'), (req, res) ->
             'title': ''
             'file': file.filename
 
-          images.push(image);
+          images.push(image)
 
-  work.images = images;
-  work.created = new Date();
+  work.images = images
+  work.created = new Date()
 
   work.save (err) ->
     return res.with(res.type.dbError, err) if err
-    res.with(res.type.createSuccess, work);
+    res.with(res.type.createSuccess, work)
 
 module.exports = router
 
@@ -63,12 +63,12 @@ router.put '/:id', auth.isAuthenticated, upload.array('images'), (req, res) ->
             'title': ''
             'file': file.filename
 
-          images.push(image);
+          images.push(image)
 
-  work.images = images;
+  work.images = images
 
   Work.findOneAndUpdate {_id: req.params.id}, work.toObjWithoutId(),  (err) ->
     return res.with(res.type.dbError, err) if err
-    res.with(res.type.createSuccess, work);
+    res.with(res.type.createSuccess, work)
 
 module.exports = router
