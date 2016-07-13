@@ -53,7 +53,7 @@ router.post '/auth', (req, res) ->
       return res.with(res.type.loginSuccess, {'token': user.generateToken()})
     res.with(res.type.wrongPassword)
 
-# GET DELETE USER
+# DELETE USER
 router.delete '/:id', auth.isAuthenticated, (req, res) ->
   User.findOneAndRemove {'_id': req.params.id}, (err) ->
     return res.with(res.type.dbError, err) if err
