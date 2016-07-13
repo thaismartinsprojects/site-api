@@ -20,7 +20,7 @@ router.put '/:id', auth.isAuthenticated, (req, res) ->
 
 # GET ALL MESSAGES
 router.get '/', auth.isAuthenticated, (req, res) ->
-  Info.find().sort('created', -1).limit(1).execFind (err, infosFound) ->
+  Info.find().sort({'created': -1}).limit(1).exec (err, infosFound) ->
     return res.with(res.type.dbError) if err
     return res.with(res.type.foundSuccess, infosFound)  if infosFound.length > 0
     res.with(res.type.itemsNotFound)
