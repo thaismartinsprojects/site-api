@@ -25,11 +25,17 @@ router.post '/', (req, res) ->
     text: 'Hello world text!'
     html: emailHtml
 
-  transporter.sendMail mailOptions, (err, info) ->
+  transporter.sendMail mailOptions, (err) ->
     return console.log(err) if err
     contact = new Contact(req.body);
     contact.save (err) ->
       return res.with(res.type.dbError, err) if err
       res.with(res.type.createSuccess, contact)
+
+# DELETE MESSAGE
+router.delete '/:id', auth.isAuthenticated, (req, res) ->
+  Contact.findOneAndRemove {'_id': req.params.id}, (err) ->
+    return res.with(res.type.dbError, err) if err
+    res.with(res.type.deleteSuccess)
 
 module.exports = router
