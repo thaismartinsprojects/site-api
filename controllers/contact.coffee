@@ -19,6 +19,11 @@ router.post '/', (req, res) ->
   emailbodyfilepath = __dirname + '/../public/emails/contact.html'
   emailHtml = fs.readFileSync(emailbodyfilepath,'utf8')
 
+  emailHtml = emailHtml.replace('__NAME__', req.body.name)
+  emailHtml = emailHtml.replace('__EMAIL__', req.body.email)
+  emailHtml = emailHtml.replace('__PHONE__', req.body.phone)
+  emailHtml = emailHtml.replace('__MESSAGE__', req.body.message)
+  
   mailOptions =
     from: '"Thais Martins" <contato@thaismartins.co>'
     to: 'thamartins@msn.com, contato@thaismartins.co'
