@@ -8,27 +8,27 @@ router.post '/', auth.isAuthenticated, (req, res) ->
   message = new Message(req.body);
   message.save (err) ->
     return res.with(res.type.dbError, err) if err
-    res.with(res.type.createSuccess, message)
+    res.with(message)
 
 # UPDATE EXISTENT MESSAGE
 router.put '/:id', auth.isAuthenticated, (req, res) ->
   message = new Message(req.body);
   Message.findOneAndUpdate({_id: req.params.id}, message.toObjWithoutId()).populate('user').exec (err, messageUpdate) ->
     return res.with(res.type.dbError, err) if err
-    res.with(res.type.updateSuccess, messageUpdate);
+    res.with(messageUpdate);
 
 # GET ALL MESSAGES
 router.get '/', auth.isAuthenticated, (req, res) ->
+  console.log(req.user)
   Message.find().sort({'created': -1}).populate('user').exec (err, messagesFound) ->
     return res.with(res.type.dbError) if err
-    return res.with(res.type.foundSuccess, messagesFound)  if messagesFound.length > 0
-    res.with(res.type.itemsNotFound)
+    res.with(messagesFound)
 
 # GET SPECIFIC MESSAGE
 router.get '/:id', auth.isAuthenticated, (req, res) ->
-  Message.find({_id: req.params.id}).populate('user').exec (err, messageFound) ->
+  Message.find({_id: req.params.id}).sort({'created': -1}).populate('user').exec (err, messageFound) ->
     return res.with(res.type.dbError) if err
-    return res.with(res.type.foundSuccess, messageFound)  if messageFound
+    return res.with(messageFound)  if messageFound
     res.with(res.type.itemNotFound)
 
 # DELETE MESSAGE

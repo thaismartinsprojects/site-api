@@ -8,6 +8,8 @@ config = require './config'
 path = require 'path'
 cors = require 'cors'
 response = require './services/response'
+request = require './services/request'
+jwt = require 'jsonwebtoken'
 
 app = express()
 
@@ -22,6 +24,14 @@ app.use expressValidator()
 app.use (req, res, next) ->
   res.type = response.messages
   res.with = response.with
+  next()
+  return
+
+app.use (req, res, next) ->
+  token = req.headers['x-access-token']
+  if not token?
+    user = jwt.decode(token);
+    req.user = request.generateUserData(user.code)
   next()
   return
 

@@ -57,13 +57,16 @@ module.exports =
             'success': false
     with: (message, data) ->
         responseJson = {}
-        if message
+        if message.text?
             responseJson.message = message.text;
             responseJson.code = message.code;
             responseJson.success = message.success;
             this.status(message.status);
-        if data
-            responseJson.data = data
+
+            if data
+                responseJson.content = data
+        else
+            responseJson = message
         this.json(responseJson)
     factory: (req, res, next) ->
         res.type = response.messages

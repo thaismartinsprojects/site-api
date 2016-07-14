@@ -17,7 +17,7 @@ setGroup = (callback, obj) ->
 UserSchema = new Schema
   name: type: String, required: true
   email: type: String, unique: true, required: true
-  user: type: String, required: true
+  user: type: String, required: true, unique: true
   group: type: Schema.Types.ObjectId, ref: 'UserGroup', required: true
   token: String
   photo: String
@@ -35,7 +35,7 @@ UserSchema.methods.comparePassword = (password) ->
 UserSchema.methods.generateToken = () ->
   return false unless this.password
   jwt.sign(
-    {'user': this.user, 'email': this.email, 'name': this.name},
+    {'code': this._id, 'user': this.user, 'email': this.email, 'name': this.name},
     config.jwt.secret,
     {expiresIn: config.jwt.expires})
 

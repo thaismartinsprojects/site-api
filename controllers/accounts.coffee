@@ -9,14 +9,13 @@ utils = require '../services/utils'
 router.get '/', auth.isAuthenticated, (req, res) ->
   User.find().populate('group').exec (err, usersFound) ->
     return res.with(res.type.dbError, err) if err
-    return res.with(res.type.foundSuccess, usersFound) if usersFound.length > 0
-    res.with(res.type.itemsNotFound)
+    res.with(usersFound)
 
 # GET SPECIFIC USER
 router.get '/:id', auth.isAuthenticated, (req, res) ->
   User.findOne({'_id': req.params.id}).populate('group').exec (err, userFound) ->
     return res.with(res.type.dbError, err) if err
-    return res.with(res.type.foundSuccess, userFound) if userFound
+    return res.with(userFound) if userFound
     res.with(res.type.itemNotFound)
 
 # ADD NEW USERS
@@ -26,7 +25,7 @@ router.post '/group', (req, res) ->
     group = new Group(req.body);
     group.save (err) ->
       return res.with(res.type.dbError, err) if err
-      res.with(res.type.createSuccess, group)
+      res.with(group)
 
 # ADD NEW USERS
 router.post '/', (req, res) ->
@@ -36,7 +35,7 @@ router.post '/', (req, res) ->
     user.save (err) ->
       return res.with(res.type.dbError, err) if err
       user.token = user.generateToken()
-      res.with(res.type.createSuccess, user)
+      res.with(user)
 
 # DO LOGIN
 router.post '/auth', (req, res) ->
@@ -50,7 +49,7 @@ router.post '/auth', (req, res) ->
   User.findOne {user: req.body.user}, (err, userFound) ->
     return res.with(res.type.itemNotFound) unless userFound?
     if (user.comparePassword(req.body.password))
-      return res.with(res.type.loginSuccess, {'token': user.generateToken()})
+      return res.with({'token': user.generateToken(), 'code': userFound._id})
     res.with(res.type.wrongPassword)
 
 # DELETE USER
