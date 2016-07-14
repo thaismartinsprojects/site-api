@@ -1,3 +1,5 @@
+'use strict'
+
 winston = require('winston')
 
 module.exports = new (winston.Logger)

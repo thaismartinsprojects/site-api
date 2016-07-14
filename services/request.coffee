@@ -1,3 +1,5 @@
+'use strict'
+
 User = require '../models/User'
 
 module.exports =

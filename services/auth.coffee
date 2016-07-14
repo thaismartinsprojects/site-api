@@ -1,3 +1,5 @@
+'use strict'
+
 jwt = require 'jsonwebtoken'
 config = require '../config'
 
