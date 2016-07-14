@@ -10,7 +10,7 @@ InfoSchema = new Schema
     facebook: { type: String },
     twitter: { type: String },
     pinterest: { type: String },
-    tumbler: { type: String },
+    tumblr: { type: String },
     googleplus: { type: String },
     linkedin: { type: String },
     github: { type: String },
