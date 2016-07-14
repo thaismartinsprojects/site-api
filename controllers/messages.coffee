@@ -19,7 +19,7 @@ router.put '/:id', auth.isAuthenticated, (req, res) ->
 
 # GET ALL MESSAGES
 router.get '/', auth.isAuthenticated, (req, res) ->
-  Message.find().populate('user').exec (err, messagesFound) ->
+  Message.find().sort({'created': -1}).populate('user').exec (err, messagesFound) ->
     return res.with(res.type.dbError) if err
     return res.with(res.type.foundSuccess, messagesFound)  if messagesFound.length > 0
     res.with(res.type.itemsNotFound)
