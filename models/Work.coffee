@@ -1,3 +1,5 @@
+'use strict'
+
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 utils = require '../services/utils'

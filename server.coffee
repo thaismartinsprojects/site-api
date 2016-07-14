@@ -1,3 +1,5 @@
+'use strict'
+
 coffee = require 'coffee-script/register'
 coffee = require 'coffee-script/register'
 express = require 'express'
