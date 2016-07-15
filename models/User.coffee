@@ -9,9 +9,9 @@ salt = bcrypt.genSaltSync(10)
 Group = require './UserGroup'
 
 generatePassword = (password) ->
-  bcrypt.hashSync(password, salt);
+  bcrypt.hashSync(password, salt)
 
-setGroup = (callback, obj) ->
+setGroup = (obj, callback) ->
   Group.findOne {'type': 'administrador'}, (err, groupFound) ->
     obj.group = groupFound._id
     callback()
@@ -19,16 +19,22 @@ setGroup = (callback, obj) ->
 UserSchema = new Schema
   name: type: String, required: true
   email: type: String, unique: true, required: true
-  user: type: String, required: true, unique: true
+  username: type: String, required: true, unique: true
   group: type: Schema.Types.ObjectId, ref: 'UserGroup', required: true
   token: String
   photo: String
   password: type: String, required: true, set: generatePassword
-  created: type: Date, default: Date.now
+  created: type: Date
+  updated: type: Date, default: Date.now
 
 UserSchema.pre 'validate', (next) ->
   if not this.group?
-    setGroup(next, this)
+    setGroup(this, next)
+
+UserSchema.methods.toObjWithoutId = () ->
+  obj = this.toObject()
+  delete obj._id
+  return obj
 
 UserSchema.methods.comparePassword = (password) ->
   return false unless this.password

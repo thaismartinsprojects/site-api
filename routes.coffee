@@ -10,5 +10,6 @@ router.use '/skills/items', require './controllers/skills-items'
 router.use '/skills', require './controllers/skills'
 router.use '/contact', require './controllers/contact'
 router.use '/info', require './controllers/info'
+router.use '/files', require './controllers/files'
 
 module.exports = router
