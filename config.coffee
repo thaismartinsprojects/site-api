@@ -7,5 +7,5 @@ module.exports =
     'secret': 'devtm'
   'database': 'mongodb://localhost/thaismartins',
   'port': PORT,
-  'ip': IP,
+  'host': IP,
   'uri': 'http://' + IP + ':' + PORT

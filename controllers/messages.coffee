@@ -19,8 +19,7 @@ router.put '/:id', auth.isAuthenticated, (req, res) ->
 
 # GET ALL MESSAGES
 router.get '/', auth.isAuthenticated, (req, res) ->
-  console.log(req.user)
-  Message.find().sort({'created': -1}).populate('user').exec (err, messagesFound) ->
+  Message.find().populate('user').exec (err, messagesFound) ->
     return res.with(res.type.dbError) if err
     res.with(messagesFound)
 

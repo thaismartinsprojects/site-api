@@ -25,6 +25,7 @@
     "express": "~4.11.1",
     "express-validator": "^2.20.8",
     "fs": "0.0.2",
+    "http": "0.0.0",
     "jsonwebtoken": "^7.0.1",
     "mongoose": "^4.5.1",
     "morgan": "^1.7.0",
@@ -33,6 +34,7 @@
     "nodemailer-smtp-transport": "^2.5.0",
     "path": "^0.12.7",
     "q": "^1.4.1",
+    "socketio": "^1.0.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
