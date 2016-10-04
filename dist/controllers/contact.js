@@ -12,6 +12,15 @@ logger = require('../services/logger');
 
 auth = require('../services/auth');
 
+router.get('/', auth.isAuthenticated, function(req, res) {
+  return Contact.find(function(err, contactsFound) {
+    if (err) {
+      return res["with"](res.type.dbError, err);
+    }
+    return res["with"](contactsFound);
+  });
+});
+
 router.post('/', function(req, res) {
   var contact;
   contact = new Contact();

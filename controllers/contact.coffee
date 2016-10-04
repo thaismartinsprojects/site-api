@@ -5,6 +5,12 @@ auth = require '../services/auth'
 logger = require '../services/logger'
 auth = require '../services/auth'
 
+# GET ALL USERS
+router.get '/', auth.isAuthenticated, (req, res) ->
+  Contact.find (err, contactsFound) ->
+    return res.with(res.type.dbError, err) if err
+    res.with(contactsFound)
+
 # ADD NEW MESSAGE
 router.post '/', (req, res) ->
   contact = new Contact()
