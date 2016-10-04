@@ -57,7 +57,7 @@ router.post '/', (req, res) ->
     return res.with(res.type.itemExists) if userFound
 
     user = new User(req.body);
-    type = 'admin'
+    type = 'administrador'
     type = req.body.group if req.body.group?
 
     Group.findOne {'type': type}, (err, groupFound) ->

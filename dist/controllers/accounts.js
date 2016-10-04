@@ -106,7 +106,7 @@ router.post('/', function(req, res) {
       return res["with"](res.type.itemExists);
     }
     user = new User(req.body);
-    type = 'admin';
+    type = 'administrador';
     if (req.body.group != null) {
       type = req.body.group;
     }
