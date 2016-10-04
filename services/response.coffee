@@ -27,6 +27,11 @@ module.exports =
       'code': 0,
       'status': 200,
       'success': true
+    'rememberSuccess':
+      'text': 'Code sended with success',
+      'code': 0,
+      'status': 200,
+      'success': true
     'dbError':
       'text': 'Error on database',
       'code': 1,
@@ -55,6 +60,16 @@ module.exports =
     'wrongPassword':
       'text': 'Wrong password',
       'code': 5,
+      'status': 500,
+      'success': false
+    'emailError':
+      'text': 'Error on send email',
+      'code': 6,
+      'status': 500,
+      'success': false
+    'codeError':
+      'text': 'Error on validate remember code',
+      'code': 7,
       'status': 500,
       'success': false
   with: (message, data) ->

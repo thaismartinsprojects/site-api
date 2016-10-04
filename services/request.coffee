@@ -6,7 +6,7 @@ module.exports =
   generateUserData: (userId) ->
     if userId
       user = null
-      User.find {'_id': userId}, (err, userFound) ->
+      User.find({'_id': userId}).populate('group').exec (err, userFound) ->
         return user = new Error err if err
         return user = userFound if userFound
         user = new Error 'Fail to validate.'

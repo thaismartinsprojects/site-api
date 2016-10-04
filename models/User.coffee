@@ -11,28 +11,48 @@ Group = require './UserGroup'
 generatePassword = (password) ->
   bcrypt.hashSync(password, salt)
 
-setGroup = (obj, callback) ->
-  Group.findOne {'type': 'administrador'}, (err, groupFound) ->
-    obj.group = groupFound._id
-    callback()
+setGroupDefault = (obj, type, callback) ->
+  Group.findOne {'type': type}, (err, groupFound) ->
+    if(groupFound)
+      obj.group = groupFound._id
+      callback()
 
 UserSchema = new Schema
   name: type: String, required: true
   email: type: String, unique: true, required: true
-  username: type: String, required: true, unique: true
+  username: type: String
   group: type: Schema.Types.ObjectId, ref: 'UserGroup', required: true
-  token: String
-  photo: String
+  address:
+      street: type: String
+      number: type: String
+      complement: type: String
+      city: type: String
+      state: type: String
+  phones: [type: String]
+  token: type: String
+  photo: type: String
   password: type: String, required: true, set: generatePassword
   created: type: Date
   updated: type: Date, default: Date.now
 
 UserSchema.pre 'validate', (next) ->
-  if not this.group?
-    setGroup(this, next)
+  if not this.group? then setGroupDefault(this, 'admin', next)
+  else next()
 
-UserSchema.methods.toObjWithoutId = () ->
+UserSchema.methods.withoutId = () ->
   obj = this.toObject()
+  delete obj._id
+  return obj
+
+UserSchema.methods.withoutPassword = () ->
+  obj = this.toObject()
+  delete obj.password
+  return obj
+
+UserSchema.methods.forUpdate = () ->
+  obj = this.toObject()
+  for item, value of obj
+      delete obj[item] if value == '' or value.length == 0
   delete obj._id
   return obj
 

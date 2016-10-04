@@ -1,6 +1,14 @@
 'use strict'
 
 module.exports =
+  regexStringAccents: (str) ->
+
+    accents = {'a': '[aãáâà]', 'e': '[éẽè]', 'i': '[iíîĩì]', 'o': '[oóõôò]','u': '[uúũûù]', 'c': 'cç'}
+
+    for letter, regex of accents
+      str = str.replace(new RegExp(letter, 'g'), regex)
+    return str
+
   createSlug: (str) ->
 
     return '' if not str?

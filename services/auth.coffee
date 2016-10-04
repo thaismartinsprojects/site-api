@@ -2,6 +2,7 @@
 
 jwt = require 'jsonwebtoken'
 config = require '../config'
+User = require '../models/User'
 
 module.exports =
   isAuthenticated: (req, res, next) ->
@@ -11,16 +12,21 @@ module.exports =
     if token
       jwt.verify token, config.jwt.secret, (err, decoded) ->
         if err
-          return res.status(403).json({
+          return res.status(403).json
             success: false,
             message: 'Failed to authenticate token.',
             error : err
-          })
         else
-          req.decoded = decoded
-          next()
+          User.findOne({email: decoded.email}, '-password').populate('group').populate('companies').exec (err, userFound) ->
+            if err || not userFound?
+              return res.status(403).json
+                success: false,
+                message: 'Failed to authenticate token.',
+                error : err
+            else
+                req.user = userFound
+                next()
     else
-      return res.status(403).send({
+      return res.status(403).send
         success: false,
         message: 'No token provided.'
-      })
