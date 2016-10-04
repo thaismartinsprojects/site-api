@@ -10,7 +10,6 @@ config = require './config'
 path = require 'path'
 cors = require 'cors'
 response = require './services/response'
-chat = require './services/websocket'
 
 app = express()
 app.set 'port', config.port
@@ -34,11 +33,6 @@ app.use (req, res, next) ->
   res.with = response.with
   next()
   return
-
-socket = require 'socket.io'
-server = require('http').Server(app)
-server.listen(9000, app.get('host'));
-chat.listen(server)
 
 app.use '/api', require './routes'
 
