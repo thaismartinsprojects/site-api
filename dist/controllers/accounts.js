@@ -1,4 +1,4 @@
-var Company, Group, User, auth, config, express, fs, jwt, multer, nodemailer, router, upload, uploadPath, utils,
+var Group, User, auth, config, express, fs, jwt, multer, nodemailer, router, upload, uploadPath, utils,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 express = require('express');
@@ -10,8 +10,6 @@ auth = require('../services/auth');
 User = require('../models/User');
 
 Group = require('../models/UserGroup');
-
-Company = require('../models/Company');
 
 utils = require('../services/utils');
 
@@ -77,7 +75,7 @@ router.post('/auth', function(req, res) {
 });
 
 router.get('/', auth.isAuthenticated, function(req, res) {
-  return User.find({}, '-password').populate('group').populate('companies').exec(function(err, usersFound) {
+  return User.find({}, '-password').populate('group').exec(function(err, usersFound) {
     if (err) {
       return res["with"](res.type.dbError, err);
     }
@@ -88,7 +86,7 @@ router.get('/', auth.isAuthenticated, function(req, res) {
 router.get('/:id', auth.isAuthenticated, function(req, res) {
   return User.findOne({
     '_id': req.params.id
-  }, '-password').populate('group').populate('companies').exec(function(err, userFound) {
+  }, '-password').populate('group').exec(function(err, userFound) {
     if (err) {
       return res["with"](res.type.dbError, err);
     }
@@ -183,21 +181,7 @@ router["delete"]('/:id', auth.isAuthenticated, function(req, res) {
     if (err) {
       return res["with"](res.type.dbError, err);
     }
-    return Company.findOneAndRemove({
-      user: req.params.id
-    }, function(err, companyFounded) {
-      if (err) {
-        return res["with"](res.type.dbError, err);
-      }
-      return Coupon.findOneAndRemove({
-        'company': companyFounded._id
-      }, function(err) {
-        if (err) {
-          return res["with"](res.type.dbError, err);
-        }
-        return res["with"](res.type.deleteSuccess);
-      });
-    });
+    return res["with"](res.type.deleteSuccess);
   });
 });
 

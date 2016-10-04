@@ -3,7 +3,6 @@ router = express.Router()
 auth = require '../services/auth'
 User = require '../models/User'
 Group = require '../models/UserGroup'
-Company = require '../models/Company'
 utils = require '../services/utils'
 fs = require 'fs'
 multer = require 'multer'
@@ -41,13 +40,13 @@ router.post '/auth', (req, res) ->
 
 # GET ALL USERS
 router.get '/', auth.isAuthenticated, (req, res) ->
-  User.find({}, '-password').populate('group').populate('companies').exec (err, usersFound) ->
+  User.find({}, '-password').populate('group').exec (err, usersFound) ->
     return res.with(res.type.dbError, err) if err
     res.with(usersFound)
 
 # GET SPECIFIC USER
 router.get '/:id', auth.isAuthenticated, (req, res) ->
-  User.findOne({'_id': req.params.id}, '-password').populate('group').populate('companies').exec (err, userFound) ->
+  User.findOne({'_id': req.params.id}, '-password').populate('group').exec (err, userFound) ->
     return res.with(res.type.dbError, err) if err
     return res.with(userFound) if userFound
     res.with(res.type.itemNotFound)
@@ -93,10 +92,6 @@ router.put '/:id', auth.isAuthenticated, upload.single('photo'), (req, res) ->
 router.delete '/:id', auth.isAuthenticated, (req, res) ->
   User.findOneAndRemove {'_id': req.params.id}, (err) ->
     return res.with(res.type.dbError, err) if err
-    Company.findOneAndRemove {user: req.params.id}, (err, companyFounded) ->
-      return res.with(res.type.dbError, err) if err
-      Coupon.findOneAndRemove {'company': companyFounded._id}, (err) ->
-        return res.with(res.type.dbError, err) if err
-        res.with(res.type.deleteSuccess)
+    res.with(res.type.deleteSuccess)
 
 module.exports = router
