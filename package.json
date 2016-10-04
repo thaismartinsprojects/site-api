@@ -1,22 +1,27 @@
 {
-  "name": "thaismartins-angularjs",
+  "name": "thaismartins-api",
   "version": "1.0.0",
-  "description": "Website Thais Martins",
-  "main": "index.html",
+  "private": true,
+  "description": "Server application to Thais Martins Website",
+  "main": "server.coffee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaismartinsprojects/site"
+    "url": "https://github.com/thaismartinsprojects/site-api"
   },
   "keywords": [
     "websites",
     "web"
   ],
+  "engines": {
+    "node": "6.2.2"
+  },
   "author": "Thais Martins <contato@thaismartins.co>",
   "license": "ISC",
-  "homepage": "https://thaismartins.co",
+  "homepage": "http://thaismartins.co",
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
@@ -25,6 +30,9 @@
     "express": "~4.11.1",
     "express-validator": "^2.20.8",
     "fs": "0.0.2",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.2",
+    "gulp-concat": "^2.6.0",
     "http": "0.0.0",
     "jsonwebtoken": "^7.0.1",
     "mongoose": "^4.5.1",
